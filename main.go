@@ -25,10 +25,11 @@ var password = "<your_password>"
 var database = "master"
 
 func main() {
-	// Build connection string
 	initializeDB()
 	handleRequests()
 }
+
+//Intializing DB connection
 func initializeDB() {
 	connString := fmt.Sprintf("server=%s;user id=%s;password=%s;port=%d;database=%s;",
 		server, user, password, port, database)
@@ -87,6 +88,7 @@ func getFromCoursera(w http.ResponseWriter, r *http.Request) {
 func getFromDBHandler(w http.ResponseWriter, r *http.Request) {
 	queryParams := r.URL.Query()
 	searchText := strings.ToLower(queryParams["query"][0])
+	//get data form DB
 	element, err := getFromDB(searchText)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -145,6 +147,7 @@ func putToCourseDB(temp Coursera) {
 
 	for i := 0; i < len(temp.Author); i++ {
 		author := temp.Author[i]
+		// put author to another table
 		putToAuthorDB(author, temp.Name)
 	}
 
@@ -209,6 +212,7 @@ func getFromDB(search string) (Elements, error) {
 
 		// Get values from row.
 		err := rows.Scan(&course.Search, &course.Name, &course.Description)
+		//Populate Author from Another table
 		populateAuthor(&course)
 		if err != nil {
 			return ElementList, err
