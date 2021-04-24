@@ -9,7 +9,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
 	"strings"
 	"time"
 
@@ -67,7 +66,6 @@ func getFromCoursera(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Fatal(err.Error())
-		os.Exit(1)
 	}
 
 	responseData, err := ioutil.ReadAll(response.Body)
@@ -85,6 +83,7 @@ func getFromCoursera(w http.ResponseWriter, r *http.Request) {
 		go putToCourseDB(temp)
 	}
 }
+
 func getFromDBHandler(w http.ResponseWriter, r *http.Request) {
 	queryParams := r.URL.Query()
 	searchText := strings.ToLower(queryParams["query"][0])
@@ -92,7 +91,6 @@ func getFromDBHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Fatal(err.Error())
-		os.Exit(1)
 	}
 	w.WriteHeader(http.StatusOK)
 	byteArray, err := json.Marshal(element)
@@ -223,7 +221,6 @@ func getFromDB(search string) (Elements, error) {
 }
 
 func populateAuthor(course *Coursera) {
-
 	ctx := context.Background()
 
 	// Check if database is alive.
