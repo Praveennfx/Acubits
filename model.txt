@@ -1,0 +1,12 @@
+Database structure 
+
+Table 1:
+    Search
+    Name
+    Description
+
+Table 2:
+    Name //name of course
+    Author
+
+//Since there are multiple author for a course    
