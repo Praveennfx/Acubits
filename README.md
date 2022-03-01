@@ -1,2 +1,2 @@
 # Acubits
-Acubits recruitment repo
+Sample code
